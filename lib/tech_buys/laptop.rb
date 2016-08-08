@@ -1,0 +1,3 @@
+class TTechBuys::Laptop
+
+end
