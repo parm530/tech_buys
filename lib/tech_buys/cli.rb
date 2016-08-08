@@ -1,5 +1,6 @@
 require 'pry'
 require 'launchy'
+
 class TechBuys::CLI
 
   def call
@@ -34,7 +35,8 @@ class TechBuys::CLI
      saved_laptops.each.with_index(1) do |hash, i|
         # binding.pry
       if num == (i).to_s
-      puts "\tlaunchy #{hash[:link]}"
+        # binding.pry
+        Launchy.open "www.bestbuy.com" + hash[:link]
       end
     end
   end
@@ -42,26 +44,73 @@ class TechBuys::CLI
   def menu
     input = nil
     while input != "exit"
-      puts "\nEnter the number of the laptops you'd like more info about, type 'list' to see the choices again or type 'exit'."
+      puts "\nEnter the number of the laptop you'd like more info about, type 'list' to see the choices again or type 'exit'."
       input = gets.strip
       case input
+
       when 'list'
         list_laptops
+
       when '1'
         puts "\n"
         list_description(input)
+        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
+        mode = gets.strip
+        if(mode == 'buy')
+          buy(input)
+        elsif(mode == 'list')
+          puts "\n"
+          list_laptops
+        end
+
       when '2'
         puts "\n"
         list_description(input)
+        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
+        mode = gets.strip
+        if(mode == 'buy')
+          buy(input)
+        elsif(mode == 'list')
+          puts "\n"
+          list_laptops
+        end
+
       when '3'
         puts "\n"
         list_description(input)
+        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
+        mode = gets.strip
+        if(mode == 'buy')
+          buy(input)
+        elsif(mode == 'list')
+          puts "\n"
+          list_laptops
+        end
+
       when '4'
         puts "\n"
         list_description(input)
+        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
+        mode = gets.strip
+        if(mode == 'buy')
+          buy(input)
+        elsif(mode == 'list')
+          puts "\n"
+          list_laptops
+        end
+
       when '5'
         puts "\n"
         list_description(input)
+        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
+        mode = gets.strip
+        if(mode == 'buy')
+          buy(input)
+        elsif(mode == 'list')
+          puts "\n"
+          list_laptops
+        end
+
       when "buy"
         puts"\n"
         buy(num)

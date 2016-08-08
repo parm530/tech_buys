@@ -6,7 +6,7 @@ class TechBuys::Scraper
 
   def self.scrape_laptop_page
     # Link for laptop:
-    link = "http://www.bestbuy.com/site/searchpage.jsp?cp=1&searchType=search&st=laptops&_dyncharset=UTF-8&id=pcat17071&type=page&sc=Global&nrp=&sp=&list=n&iht=y&usc=All%20Categories&ks=960&keys=keys&qp=brand_facet%3DBrand~Apple%5Ecategory_facet%3DAll%20Laptops~pcmcat138500050001"
+    link = "http://www.bestbuy.com/site/searchpage.jsp?cp=1&searchType=search&st=laptops&_dyncharset=UTF-8&id=pcat17071&type=page&sc=Global&nrp=&sp=-bestsellingsort%20skuidsaas&qp=category_facet%3DAll%20Laptops~pcmcat138500050001&list=n&iht=y&usc=All%20Categories&ks=960&keys=keys"
     doc = Nokogiri::HTML(open(link))
     laptop_collection = doc.css(".list-item")
     
