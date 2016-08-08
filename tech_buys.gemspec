@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["parm530"]
   spec.email         = ["parmsahadeo530@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{CLI that scrapes electronic devices from BestBuy.com}
+  spec.description   = %q{The gem includes electronic devices ranging from laptops to drones and wearable technology. Users are able to browse prices and link to the items that they are interested in purchasing. }
+  spec.homepage      = "https://github.com/Olive4Oyl/tech_buys"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

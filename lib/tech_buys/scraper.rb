@@ -4,17 +4,20 @@ require 'pry'
 
 class TechBuys::Scraper
 
-  def scrape_laptop_page
+  def self.scrape_laptop_page
     # Link for laptop:
-    link = "http://www.bestbuy.com/site/searchpage.jsp?cp=1&searchType=search&%20_dyncharset=UTF-8&ks=960&sc=Global&list=y&usc=All%20Categories&type=page&id=pcat17071&iht=n&seeAll=&browsedCategory=pcmcat138500050001&st=categoryid%24pcmcat138500050001&qp=operatingsystem_facet%3DOperating%20System~Windows%2010%5Eoperatingsystem_facet%3DOperating%20System~Windows%207%5Eoperatingsystem_facet%3DOperating%20System~Windows%208%5Eoperatingsystem_facet%3DOperating%20System~Windows%2010%20Pro"
+    link = "http://www.bestbuy.com/site/searchpage.jsp?cp=1&searchType=search&st=laptops&_dyncharset=UTF-8&id=pcat17071&type=page&sc=Global&nrp=&sp=&list=n&iht=y&usc=All%20Categories&ks=960&keys=keys&qp=brand_facet%3DBrand~Apple%5Ecategory_facet%3DAll%20Laptops~pcmcat138500050001"
     doc = Nokogiri::HTML(open(link))
-    laptop_collection = doc.css("div.list-item-postcard")
-
-    laptop_collection.each do|laptop|
+    laptop_collection = doc.css(".list-item")
+    
+      laptop_collection.collect.with_index do|laptop, i|
       laptop_hash = {}
-      laptop_hash[:name] = laptop_collection.text
-      binding.pry
-    end
+      laptop_hash[:name] = laptop_collection.css(".list-item-postcard h4")[i].text
+      laptop_hash[:price] = laptop_collection.css(".medium-item-price")[i].text
+      laptop_hash[:description] = laptop_collection.css("div.short-description")[i].text
+      laptop_hash[:link] =  laptop_collection.css(".list-item-postcard h4 a")[i].attribute("href").value
+      laptop_hash
+    end      
   end
 
 end

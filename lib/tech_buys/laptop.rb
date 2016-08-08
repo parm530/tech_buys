@@ -1,10 +1,27 @@
+require 'pry'
 class TechBuys::Laptop
 
+	attr_accessor :name, :price, :description, :link
+
+	@@all = []
+
+	def initialize(laptop_hash)
+		laptop_hash.each do |key, value|
+			self.send("#{key}=", value)	
+		end
+		@@all << self
+		# binding.pry
+	end
+
   def self.all
-    puts <<-DOC.gsub /^\s*/, ''
-      1. Asus - VivoBook X540SA 15.6 Laptop - Intel Pentium - 4GB Memory - 500GB Hard Drive - Silver gradient IMR with hairline Price:$279.99
-      2. HP - 15.6 Touch-Screen Laptop - AMD A10-Series - 6GB Memory - 1TB Hard Drive - Black, Linear texture, Gradient grooves Price:$349.99
-    DOC
+  		@@all
+  end
+
+  def self.create_laptop(laptop_hash)
+  	laptop_hash.each do |hash|
+  		TechBuys::Laptop.new(hash)
+  		# binding.pry
+  	end
   end
 
 end
