@@ -1,4 +1,5 @@
 require 'pry'
+require 'launchy'
 class TechBuys::CLI
 
   def call
@@ -29,6 +30,15 @@ class TechBuys::CLI
     end
   end
 
+  def buy(num) 
+     saved_laptops.each.with_index(1) do |hash, i|
+        # binding.pry
+      if num == (i).to_s
+      puts "\tlaunchy #{hash[:link]}"
+      end
+    end
+  end
+
   def menu
     input = nil
     while input != "exit"
@@ -52,6 +62,9 @@ class TechBuys::CLI
       when '5'
         puts "\n"
         list_description(input)
+      when "buy"
+        puts"\n"
+        buy(num)
       else
         puts "Please choose a valid option"
       end
