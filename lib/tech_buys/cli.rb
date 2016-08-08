@@ -1,0 +1,3 @@
+class TechBuys::CLI
+
+end
