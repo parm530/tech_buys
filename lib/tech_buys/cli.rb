@@ -5,25 +5,26 @@ require 'colorize'
 class TechBuys::CLI
 
   def call
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
+    puts "\t\t\t\t\t\t\tWelcome to Tech Buys!"::colorize(:cyan)
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     prompt
     exit
   end
 
   def prompt
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    puts "\t\t\t\t\t\tWelcome to Tech Buys!"::colorize(:cyan)
     puts "\t\t\t\tPlease enter 'laptops', 'games' or 'wearables' to see deals from BestBuy.com, or 'exit':"::colorize(:cyan)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     user_input = gets.strip.downcase
-    if(user_input == "laptops")
-      list_laptops
-      laptop_menu
-    elsif(user_input == "games")
-      list_games
-      game_menu
-    elsif(user_input == "wearables")
-      list_wearables
-      wearable_menu
+    if(user_input == "laptops" || user_input == "games" || user_input == "wearables")
+      list(user_input)
+      menu(user_input)
+    elsif(user_input == "exit")
+
+    else
+      puts "Please enter a valid input:"::colorize(:magenta)
+      prompt
     end
   end
 
@@ -32,27 +33,9 @@ class TechBuys::CLI
     @laptops
   end
 
-  def list_laptops
-    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    puts "Laptops on sale:"::colorize(:light_yellow)
-    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    saved_laptops.each.with_index(1) do |hash, i|
-      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
-    end
-  end
-
   def saved_games
     @games = TechBuys::Game.create_game(TechBuys::Scraper.scrape_game_page)
     @games
-  end
-
-  def list_games
-    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    puts "Games on sale:"::colorize(:light_yellow)
-    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    saved_games.each.with_index(1) do |hash, i|
-      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
-    end
   end
 
   def saved_wearables
@@ -60,17 +43,28 @@ class TechBuys::CLI
     @wearables
   end
 
-  def list_wearables
+  def list(device)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    puts "Wearables on sale:"::colorize(:light_yellow)
+    puts "#{device.capitalize} on sale:"::colorize(:light_yellow)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    saved_wearables.each.with_index(1) do |hash, i|
+    if device == "laptops"
+      saved_laptops.each.with_index(1) do |hash, i|
       puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
-    end
+      end
+    elsif device == "games"
+      saved_games.each.with_index(1) do |hash, i|
+      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
+      end
+    elsif device == "wearables"
+      saved_wearables.each.with_index(1) do |hash, i|
+      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
+
+      end
+    end 
   end
 
   def list_description(device, num)
-    if(device == "laptop")
+    if(device == "laptops")
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
       puts "Description:"::colorize(:cyan)
       saved_laptops.each.with_index(1) do |hash, i|
@@ -79,7 +73,7 @@ class TechBuys::CLI
         end
       end
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    elsif(device == "game")
+    elsif(device == "games")
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
       puts "Description:"::colorize(:cyan)
       saved_games.each.with_index(1) do |hash, i|
@@ -98,22 +92,23 @@ class TechBuys::CLI
       end
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     end
- 
   end
 
   def buy(device, num)
-    if(device == "laptop")
+    if(device == "laptops")
       saved_laptops.each.with_index(1) do |hash, i|
         if num == (i).to_s
           Launchy.open "www.bestbuy.com" + hash[:link]
         end
       end
-    elsif(device == "game")
+      # menu(device)
+    elsif(device == "games")
       saved_games.each.with_index(1) do |hash, i|
         if num == (i).to_s
           Launchy.open "www.bestbuy.com" + hash[:link]
         end
       end
+      menu(device)
     elsif(device == "wearables")
       saved_wearables.each.with_index(1) do |hash, i|
         if num == (i).to_s
@@ -121,97 +116,46 @@ class TechBuys::CLI
         end
       end
     end
-        
+    menu(device)
   end
 
-  def further_action_laptop(device, num)
-    if(num.to_i.between?(1,24) == true)
-      puts "\n"
-      list_description(device, num)
-      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'back'."::colorize(:light_red)
-      mode = gets.strip
-      if(mode == "buy")
-        buy(device, num)
-      elsif(mode == "list")
-        puts "\n"
-        list_laptops
-      elsif(mode == "back")
-        puts"\n"
-        prompt
-      end
-    end  
-  end
-
-  def further_action_game(device, num)
-    if(num.to_i.between?(1,24) == true)
-      puts "\n"
-      list_description(device, num)
-      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'back'."::colorize(:light_red)
-      mode = gets.strip
-      if(mode == "buy")
-        buy(device, num)
-      elsif(mode == "list")
-        puts "\n"
-        list_games
-      elsif(mode == "back")
-        puts"\n"
-        prompt
-      end
-    end  
-  end
-
-  def further_action_wear(device, num)
+  def further_action(device, num)
     if(num.to_i.between?(1,24) == true)
       puts "\n"
       list_description(device, num)
       puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
       mode = gets.strip
-      if(mode == "buy")
-        buy(device, num)
-      elsif(mode == "list")
-        puts "\n"
-        list_wearables
-      elsif(mode == "back")
-        puts"\n"
-        prompt
-      end
-    end  
-  end
-
-  def laptop_menu
-      puts "\nType the number of the laptop to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
-      input = gets.strip
-      if(input == "back")
-        prompt
-      elsif(input == "list")
-        list_laptops
+        if(mode == "buy")
+          buy(device, num)
+        elsif(mode == "list")
+          puts "\n"
+          list(device)
+          menu(device)
+        elsif(mode == "back")
+          puts"\n"
+          prompt
+        end
       else
-        further_action_laptop("laptop", input)
+        puts "Enter a valid number!"::colorize(:magenta)
+        menu(device)
+    end 
+  end
+
+  def menu(device)
+    puts "\nEnter a number from 1 - 24 to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
+    input = gets.strip
+    if(input == "back")
+      prompt
+    elsif(input == "list")
+      if device == "laptops"
+        list(device)
+      elsif device == "games"
+        list(device)
+      elsif device == "wearables"
+        list(device)
       end
-
-  end
-
-  def game_menu
-    puts "\nType the number of the game to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
-      input = gets.strip
-    if(input == "back")
-      prompt
-    elsif(input == "list")
-      list_games
     else
-      further_action_game("game", input)
-    end
-  end
-
-  def wearable_menu
-    puts "\nType the number of the wearable device to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
-      input = gets.strip
-    if(input == "back")
-      prompt
-    elsif(input == "list")
-      list_wearables
-    else
-      further_action_wear("wearables", input)
+      further_action(device, input)
     end
   end
 
