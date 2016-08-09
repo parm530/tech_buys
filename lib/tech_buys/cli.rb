@@ -12,7 +12,7 @@ class TechBuys::CLI
   def prompt
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     puts "\t\t\t\t\t\tWelcome to Tech Buys!"::colorize(:cyan)
-    puts "\t\t\t\tPlease enter 'laptops', 'games' or 'wearables' to see deals from BestBuy.com:"::colorize(:cyan)
+    puts "\t\t\t\tPlease enter 'laptops', 'games' or 'wearables' to see deals from BestBuy.com, or 'exit':"::colorize(:cyan)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     user_input = gets.strip.downcase
     if(user_input == "laptops")
