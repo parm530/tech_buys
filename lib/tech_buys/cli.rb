@@ -1,5 +1,6 @@
 require 'pry'
 require 'launchy'
+require 'colorize'
 
 class TechBuys::CLI
 
@@ -9,7 +10,9 @@ class TechBuys::CLI
   end
 
   def prompt
-    puts "Welcome to Tech Buys! Please enter 'laptops', 'games' or 'wearable devices' to see deals from BestBuy.com:"
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
+    puts "\t\tWelcome to Tech Buys! Please enter 'laptops', 'games' or 'wearable devices' to see deals from BestBuy.com:"::colorize(:cyan)
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     user_input = gets.strip.downcase
     if(user_input == "laptops")
       list_laptops
@@ -27,7 +30,9 @@ class TechBuys::CLI
   end
 
   def list_laptops
-    puts "Laptops on sale:"
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
+    puts "Laptops on sale:"::colorize(:light_yellow)
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     saved_laptops.each.with_index(1) do |hash, i|
       puts "#{i}. #{hash[:name]} - #{hash[:price]}"
     end
@@ -39,7 +44,9 @@ class TechBuys::CLI
   end
 
   def list_games
-    puts "Games on sale:"
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
+    puts "Games on sale:"::colorize(:light_yellow)
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     saved_games.each.with_index(1) do |hash, i|
       puts "#{i}. #{hash[:name]} - #{hash[:price]}"
     end
@@ -47,17 +54,17 @@ class TechBuys::CLI
 
   def list_description(device, num)
     if(device == "laptop")
-      puts "Description:"
+      puts "Description:"::colorize(:cyan)
       saved_laptops.each.with_index(1) do |hash, i|
         if(num == (i).to_s)
-          puts "\t#{hash[:description]}"
+          puts "\t#{hash[:description]}"::colorize(:light_yellow)
         end
       end
     elsif(device == "game")
-      puts "Description:"
+      puts "Description:"::colorize(:cyan)
       saved_games.each.with_index(1) do |hash, i|
         if(num == (i).to_s)
-          puts "\t#{hash[:description]}"
+          puts "\t#{hash[:description]}"::colorize(:light_yellow)
         end
       end
     end
@@ -81,84 +88,51 @@ class TechBuys::CLI
         
   end
 
+  def further_action_laptop(device, num)
+    if(num.to_i.between?(1,24) == true)
+      puts "\n"
+      list_description(device, num)
+      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."::colorize(:light_red)
+      mode = gets.strip
+      if(mode == 'buy')
+        buy(device, num)
+      elsif(mode == 'list')
+        puts "\n"
+        list_laptops
+      elsif(mode == "exit")
+        puts"\n"
+        prompt
+      end
+    end  
+  end
+
+  def further_action_game(device, num)
+    if(num.to_i.between?(1,24) == true)
+      puts "\n"
+      list_description(device, num)
+      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."::colorize(:light_red)
+      mode = gets.strip
+      if(mode == 'buy')
+        buy(device, num)
+      elsif(mode == 'list')
+        puts "\n"
+        list_games
+      elsif(mode == "exit")
+        puts"\n"
+        prompt
+      end
+    end  
+  end
+
   def laptop_menu
     input = nil
     while input != "exit"
-      puts "\nEnter the number of the laptop you'd like more info about, type 'list' to see the choices again or type 'exit'."
+      puts "\nEnter the number of the laptop you'd like more info about, type 'list' to see the choices again, 'back to go to the previous menu or type 'exit'."::colorize(:light_red)
       input = gets.strip
-      case input
-
-      when 'list'
-        list_laptops
-
-      when '1'
-        puts "\n"
-        list_description("laptop", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("laptop", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_laptops
-        end
-
-      when '2'
-        puts "\n"
-        list_description("laptop", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("laptop", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_laptops
-        end
-
-      when '3'
-        puts "\n"
-        list_description("laptop", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("laptop", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_laptops
-        end
-
-      when '4'
-        puts "\n"
-        list_description("laptop", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("laptop", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_laptops
-        end
-
-      when '5'
-        puts "\n"
-        list_description("laptop", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("laptop", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_laptops
-        end
-
-      when "buy"
-        puts"\n"
-        buy(num)
-      when "back"
-        puts"\n"
+      if(input == "back")
         prompt
       else
-        puts "Please choose a valid option"
+        further_action_laptop("laptop", input)
       end
     end
   end
@@ -166,88 +140,20 @@ class TechBuys::CLI
   def game_menu
     input = nil
     while input != "exit"
-        puts "\nEnter the number of the game you'd like more info about, type 'list' to see the choices again, 'back' to go to previous menu or type 'exit'."
+        puts "\nEnter the number of the game you'd like more info about, type 'list' to see the choices again, 'back' to go to the previous menu or type 'exit'."::colorize(:light_red)
         input = gets.strip
-      case input
-
-      when 'list'
-        list_games
-
-      when '1'
-        puts "\n"
-        list_description("game", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("game", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_games
-        end
-
-      when '2'
-        puts "\n"
-        list_description("game", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("game", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_games
-        end
-
-      when '3'
-        puts "\n"
-        list_description("game", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("game", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_games
-        end
-
-      when '4'
-        puts "\n"
-        list_description("game", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("game", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_games
-        end
-
-      when '5'
-        puts "\n"
-        list_description("game", input)
-        puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."
-        mode = gets.strip
-        if(mode == 'buy')
-          buy("game", input)
-        elsif(mode == 'list')
-          puts "\n"
-          list_games
-        end
-
-      when "buy"
-        puts"\n"
-        buy(num)
-      when "back"
-        puts"\n"
+      if(input == "back")
         prompt
       else
-        puts "Please choose a valid option"
+        further_action_game("game", input)
       end
     end
-    
   end
 
   def exit
-    puts "Goodbye :)!"
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
+    puts "\t\t\t\t\t\t\tThank you, goodbye :)!"::colorize(:cyan)
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
   end
 
 end
