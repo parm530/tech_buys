@@ -1,12 +1,14 @@
 require 'pry'
 require 'launchy'
 require 'colorize'
+require 'artii'
 
 class TechBuys::CLI
 
   def call
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    puts "\t\t\t\t\t\t\tWelcome to Tech Buys!"::colorize(:cyan)
+    string = Artii::Base.new
+    puts string.asciify("            Welcome   to TechBuys  !")::colorize(:cyan)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     prompt
     exit
@@ -23,7 +25,7 @@ class TechBuys::CLI
     elsif(user_input == "exit")
 
     else
-      puts "Please enter a valid input:"::colorize(:magenta)
+      puts "Please enter a valid input:"::colorize(:red)
       prompt
     end
   end
@@ -69,7 +71,7 @@ class TechBuys::CLI
       puts "Description:"::colorize(:cyan)
       saved_laptops.each.with_index(1) do |hash, i|
         if(num == (i).to_s)
-          puts "\t#{hash[:description]}"::colorize(:light_yellow)
+          puts "\t#{hash[:description]}"::colorize(:light_green)
         end
       end
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
@@ -78,7 +80,7 @@ class TechBuys::CLI
       puts "Description:"::colorize(:cyan)
       saved_games.each.with_index(1) do |hash, i|
         if(num == (i).to_s)
-          puts "\t#{hash[:description]}"::colorize(:light_yellow)
+          puts "\t#{hash[:description]}"::colorize(:light_green)
         end
       end
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
@@ -87,7 +89,7 @@ class TechBuys::CLI
       puts "Description:"::colorize(:cyan)
       saved_wearables.each.with_index(1) do |hash, i|
         if(num == (i).to_s)
-          puts "\t#{hash[:description]}"::colorize(:light_yellow)
+          puts "\t#{hash[:description]}"::colorize(:light_green)
         end
       end
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
@@ -101,7 +103,7 @@ class TechBuys::CLI
           Launchy.open "www.bestbuy.com" + hash[:link]
         end
       end
-      # menu(device)
+      menu(device)
     elsif(device == "games")
       saved_games.each.with_index(1) do |hash, i|
         if num == (i).to_s
@@ -123,7 +125,7 @@ class TechBuys::CLI
     if(num.to_i.between?(1,24) == true)
       puts "\n"
       list_description(device, num)
-      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
+      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:cyan)
       mode = gets.strip
         if(mode == "buy")
           buy(device, num)
@@ -136,13 +138,13 @@ class TechBuys::CLI
           prompt
         end
       else
-        puts "Enter a valid number!"::colorize(:magenta)
+        puts "Enter a valid number!"::colorize(:red)
         menu(device)
     end 
   end
 
   def menu(device)
-    puts "\nEnter a number from 1 - 24 to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
+    puts "\nEnter a number from 1 - 24 to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:cyan)
     input = gets.strip
     if(input == "back")
       prompt
