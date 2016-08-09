@@ -10,7 +10,6 @@ class TechBuys::Laptop
 			self.send("#{key}=", value)	
 		end
 		@@all << self
-		# binding.pry
 	end
 
   def self.all
@@ -20,7 +19,6 @@ class TechBuys::Laptop
   def self.create_laptop(laptop_hash)
   	laptop_hash.each do |hash|
   		TechBuys::Laptop.new(hash)
-  		# binding.pry
   	end
   end
 

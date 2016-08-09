@@ -24,8 +24,7 @@ class TechBuys::CLI
   def list_description(num)
     puts "Description:"
      saved_laptops.each.with_index(1) do |hash, i|
-        # binding.pry
-      if num == (i).to_s
+      if(num == (i).to_s)
       puts "\t#{hash[:description]}"
       end
     end
@@ -33,9 +32,7 @@ class TechBuys::CLI
 
   def buy(num) 
      saved_laptops.each.with_index(1) do |hash, i|
-        # binding.pry
       if num == (i).to_s
-        # binding.pry
         Launchy.open "www.bestbuy.com" + hash[:link]
       end
     end
