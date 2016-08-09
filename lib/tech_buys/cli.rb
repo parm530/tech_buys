@@ -5,6 +5,7 @@ class TechBuys::CLI
 
   def call
     list_laptops
+    list_wearables
     menu
     exit
   end
@@ -21,6 +22,13 @@ class TechBuys::CLI
     end
   end
 
+  def list_wearables
+    puts "Laptops on sale:"
+    saved_wearables.each.with_index(1) do |hash, i|
+      puts "#{i}. #{hash[:name]} - #{hash[:price]}"
+    end
+  end
+
   def list_description(num)
     puts "Description:"
      saved_laptops.each.with_index(1) do |hash, i|
@@ -32,7 +40,41 @@ class TechBuys::CLI
   end
 
   def buy(num) 
-     saved_laptops.each.with_index(1) do |hash, i|
+    saved_laptops.each.with_index(1) do |hash, i|
+        # binding.pry
+      if num == (i).to_s
+        # binding.pry
+        Launchy.open "www.bestbuy.com" + hash[:link]
+      end
+    end
+  end
+
+#wearable information
+  def saved_wearables
+    @wearables = TechBuys::Wearable.create_wearable(TechBuys::Scraper.scrape_wearable_tech_page)
+    @wearables
+    binding.pry
+  end
+
+  def list_wearables
+    puts "Wearable Technology on sale:"
+    saved_wearables.each.with_index(1) do |hash, i|
+      puts "#{i}. #{hash[:title]} - #{hash[:price]}"
+    end
+  end
+
+  def wearables_description(num)
+    puts "Description:"
+     saved_wearables.each.with_index(1) do |hash, i|
+        # binding.pry
+      if num == (i).to_s
+      puts "\t#{hash[:description]}"
+      end
+    end
+  end
+
+  def buy(num) 
+     saved_wearables.each.with_index(1) do |hash, i|
         # binding.pry
       if num == (i).to_s
         # binding.pry
@@ -115,12 +157,14 @@ class TechBuys::CLI
         puts"\n"
         buy(num)
       else
+        puts"\n"
         puts "Please choose a valid option"
       end
     end
   end
 
   def exit
+    puts"\n"
     puts "Goodbye :)!"
   end
 
