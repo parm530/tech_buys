@@ -20,5 +20,22 @@ class TechBuys::Scraper
     end      
   end
 
+  def self.scrape_game_page
+    link = "http://www.bestbuy.com/site/promo/save-on-select-video-games-evn3509"
+    doc = Nokogiri::HTML(open(link))
+    game_collection = doc.css(".list-item")
+    
+      game_collection.collect.with_index do|laptop, i|
+      game_hash = {}
+      game_hash[:name] = game_collection.css(".list-item-postcard h4")[i].text
+      game_hash[:price] = game_collection.css(".medium-item-price")[i].text
+      game_hash[:description] = game_collection.css("div.short-description")[i].text
+      game_hash[:link] =  game_collection.css(".list-item-postcard h4 a")[i].attribute("href").value
+      game_hash
+    end
+
+    
+  end
+
 end
 
