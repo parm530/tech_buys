@@ -11,7 +11,8 @@ class TechBuys::CLI
 
   def prompt
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
-    puts "\t\tWelcome to Tech Buys! Please enter 'laptops', 'games' or 'wearables' to see deals from BestBuy.com:"::colorize(:cyan)
+    puts "\t\t\t\t\t\tWelcome to Tech Buys!"::colorize(:cyan)
+    puts "\t\t\t\tPlease enter 'laptops', 'games' or 'wearables' to see deals from BestBuy.com:"::colorize(:cyan)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     user_input = gets.strip.downcase
     if(user_input == "laptops")
@@ -36,7 +37,7 @@ class TechBuys::CLI
     puts "Laptops on sale:"::colorize(:light_yellow)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     saved_laptops.each.with_index(1) do |hash, i|
-      puts "#{i}. #{hash[:name]} - #{hash[:price]}"
+      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
     end
   end
 
@@ -50,7 +51,7 @@ class TechBuys::CLI
     puts "Games on sale:"::colorize(:light_yellow)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     saved_games.each.with_index(1) do |hash, i|
-      puts "#{i}. #{hash[:name]} - #{hash[:price]}"
+      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
     end
   end
 
@@ -64,34 +65,40 @@ class TechBuys::CLI
     puts "Wearables on sale:"::colorize(:light_yellow)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     saved_wearables.each.with_index(1) do |hash, i|
-      puts "#{i}. #{hash[:name]} - #{hash[:price]}"
+      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
     end
   end
 
   def list_description(device, num)
     if(device == "laptop")
+      puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
       puts "Description:"::colorize(:cyan)
       saved_laptops.each.with_index(1) do |hash, i|
         if(num == (i).to_s)
           puts "\t#{hash[:description]}"::colorize(:light_yellow)
         end
       end
+      puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     elsif(device == "game")
+      puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
       puts "Description:"::colorize(:cyan)
       saved_games.each.with_index(1) do |hash, i|
         if(num == (i).to_s)
           puts "\t#{hash[:description]}"::colorize(:light_yellow)
         end
       end
+      puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     elsif(device == "wearables")
+      puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
       puts "Description:"::colorize(:cyan)
       saved_wearables.each.with_index(1) do |hash, i|
         if(num == (i).to_s)
           puts "\t#{hash[:description]}"::colorize(:light_yellow)
         end
       end
+    puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     end
-        
+ 
   end
 
   def buy(device, num)
@@ -121,14 +128,14 @@ class TechBuys::CLI
     if(num.to_i.between?(1,24) == true)
       puts "\n"
       list_description(device, num)
-      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."::colorize(:light_red)
+      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'back'."::colorize(:light_red)
       mode = gets.strip
-      if(mode == 'buy')
+      if(mode == "buy")
         buy(device, num)
-      elsif(mode == 'list')
+      elsif(mode == "list")
         puts "\n"
         list_laptops
-      elsif(mode == "exit")
+      elsif(mode == "back")
         puts"\n"
         prompt
       end
@@ -139,14 +146,14 @@ class TechBuys::CLI
     if(num.to_i.between?(1,24) == true)
       puts "\n"
       list_description(device, num)
-      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."::colorize(:light_red)
+      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'back'."::colorize(:light_red)
       mode = gets.strip
-      if(mode == 'buy')
+      if(mode == "buy")
         buy(device, num)
-      elsif(mode == 'list')
+      elsif(mode == "list")
         puts "\n"
         list_games
-      elsif(mode == "exit")
+      elsif(mode == "back")
         puts"\n"
         prompt
       end
@@ -157,14 +164,14 @@ class TechBuys::CLI
     if(num.to_i.between?(1,24) == true)
       puts "\n"
       list_description(device, num)
-      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'exit'."::colorize(:light_red)
+      puts "\nTo purchase this item, type 'buy'. If not, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
       mode = gets.strip
-      if(mode == 'buy')
+      if(mode == "buy")
         buy(device, num)
-      elsif(mode == 'list')
+      elsif(mode == "list")
         puts "\n"
         list_wearables
-      elsif(mode == "exit")
+      elsif(mode == "back")
         puts"\n"
         prompt
       end
@@ -172,41 +179,39 @@ class TechBuys::CLI
   end
 
   def laptop_menu
-    input = nil
-    while input != "exit"
-      puts "\nEnter the number of the laptop you'd like more info about, type 'list' to see the choices again, 'back to go to the previous menu or type 'exit'."::colorize(:light_red)
+      puts "\nType the number of the laptop to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
       input = gets.strip
       if(input == "back")
         prompt
+      elsif(input == "list")
+        list_laptops
       else
         further_action_laptop("laptop", input)
       end
-    end
+
   end
 
   def game_menu
-    input = nil
-    while input != "exit"
-        puts "\nEnter the number of the game you'd like more info about, type 'list' to see the choices again, 'back' to go to the previous menu or type 'exit'."::colorize(:light_red)
-        input = gets.strip
-      if(input == "back")
-        prompt
-      else
-        further_action_game("game", input)
-      end
+    puts "\nType the number of the game to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
+      input = gets.strip
+    if(input == "back")
+      prompt
+    elsif(input == "list")
+      list_games
+    else
+      further_action_game("game", input)
     end
   end
 
   def wearable_menu
-    input = nil
-    while input != "exit"
-        puts "\nEnter the number of the game you'd like more info about, type 'list' to see the choices again, 'back' to go to the previous menu or type 'exit'."::colorize(:light_red)
-        input = gets.strip
-      if(input == "back")
-        prompt
-      else
-        further_action_wear("wearables", input)
-      end
+    puts "\nType the number of the wearable device to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:light_red)
+      input = gets.strip
+    if(input == "back")
+      prompt
+    elsif(input == "list")
+      list_wearables
+    else
+      further_action_wear("wearables", input)
     end
   end
 
