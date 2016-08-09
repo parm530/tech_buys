@@ -5,7 +5,6 @@ require 'pry'
 class TechBuys::Scraper
 
   def self.scrape_laptop_page
-    # Link for laptop:
     link = "http://www.bestbuy.com/site/searchpage.jsp?cp=1&searchType=search&st=laptops&_dyncharset=UTF-8&id=pcat17071&type=page&sc=Global&nrp=&sp=-bestsellingsort%20skuidsaas&qp=category_facet%3DAll%20Laptops~pcmcat138500050001&list=n&iht=y&usc=All%20Categories&ks=960&keys=keys"
     doc = Nokogiri::HTML(open(link))
     laptop_collection = doc.css(".list-item")
@@ -43,7 +42,6 @@ class TechBuys::Scraper
       wearable_collection.collect.with_index do|wearable, i|
       wearable_hash = {}
       wearable_hash[:name] = wearable_collection.css(".list-item-postcard h4")[i].text
-      # binding.pry
       wearable_hash[:price] = wearable_collection.css(".medium-item-price")[i].text
       wearable_hash[:description] = wearable_collection.css("div.short-description")[i].text
       wearable_hash[:link] =  wearable_collection.css(".list-item-postcard h4 a")[i].attribute("href").value

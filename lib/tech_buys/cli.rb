@@ -6,6 +6,7 @@ require 'artii'
 class TechBuys::CLI
 
   def call
+    system "clear"
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     string = Artii::Base.new
     puts string.asciify("            Welcome   to TechBuys  !")::colorize(:cyan)

@@ -2,8 +2,4 @@
 
 require './lib/tech_buys'
 
-# TechBuys::Scraper.new.scrape_laptop_page
-# TechBuys::Laptop.new.all
-
-
 TechBuys::CLI.new.call
