@@ -1,8 +1,6 @@
 # TechBuys
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/tech_buys`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem enables the user to access electronic devices including laptops, games and wearable electronic devices from BestBuy.com. The gem provides the user will the access to the price, description and link to be able to purchase the item.
 
 ## Installation
 
@@ -22,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+  $ tech_buys
 
 ## Development
 
