@@ -14,7 +14,7 @@ class TechBuys::Laptop
 	end
 
   def self.all
-  		@@all
+  	@@all
   end
 
 end

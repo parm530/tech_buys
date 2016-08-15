@@ -141,7 +141,7 @@ class TechBuys::CLI
   end
 
   def menu(device)
-    puts "\nEnter a number from 1 - 24 to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:cyan)
+    puts "\nEnter a number to recieve more info, type 'list' to see the choices again or type 'back' to go to previous menu."::colorize(:cyan)
     input = gets.strip
     if(input == "back")
       prompt

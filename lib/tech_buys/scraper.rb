@@ -20,7 +20,7 @@ class TechBuys::Scraper
   end
 
   def self.scrape_game_page
-    link = "http://www.bestbuy.com/site/promo/save-on-select-video-games-evn3509"
+    link = "http://www.bestbuy.com/site/searchpage.jsp?nrp=15&cp=1&seeAll=&browsedCategory=abcat0700000&qp=&ks=960&sp=-bestsellingsort%20skuidsaas&sc=Global&list=y&usc=All%20Categories&type=page&id=pcat17071&iht=n&st=categoryid%24abcat0700000&lid=Products:%20All%20New%20Releases"
     doc = Nokogiri::HTML(open(link))
     game_collection = doc.css(".list-item")
     
