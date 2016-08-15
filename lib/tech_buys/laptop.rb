@@ -17,10 +17,4 @@ class TechBuys::Laptop
   		@@all
   end
 
-  # def self.create_laptop(laptop_hash)
-  # 	laptop_hash.each do |hash|
-  # 		TechBuys::Laptop.new(hash)
-  # 	end
-  # end
-
 end
