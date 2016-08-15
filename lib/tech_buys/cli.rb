@@ -100,14 +100,12 @@ class TechBuys::CLI
           Launchy.open "www.bestbuy.com" + "#{laptop.link}"
         end
       end
-      menu(device)
     elsif(device == "games")
       saved_games.each.with_index(1) do |game, i|
         if num == (i).to_s
           Launchy.open "www.bestbuy.com" + "#{game.link}"
         end
       end
-      menu(device)
     elsif(device == "wearables")
       saved_wearables.each.with_index(1) do |wear, i|
         if num == (i).to_s
@@ -115,7 +113,7 @@ class TechBuys::CLI
         end
       end
     end
-    menu(device)
+    prompt
   end
 
   def further_action(device, num)
