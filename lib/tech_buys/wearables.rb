@@ -1,6 +1,7 @@
 require 'pry'
 class TechBuys::Wearable
 
+  extend TechBuys::Createable
   attr_accessor :name, :price, :description, :link
 
   @@all = []
@@ -14,12 +15,6 @@ class TechBuys::Wearable
 
   def self.all
       @@all
-  end
-
-  def self.create_wearable(wearable_hash)
-    wearable_hash.each do |hash|
-      TechBuys::Wearable.new(hash)
-    end
   end
 
 end

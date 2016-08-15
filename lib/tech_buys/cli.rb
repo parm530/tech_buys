@@ -32,18 +32,15 @@ class TechBuys::CLI
   end
 
   def saved_laptops
-    @laptops = TechBuys::Laptop.create_laptop(TechBuys::Scraper.scrape_laptop_page)
-    @laptops
+    TechBuys::Laptop.create_techbuy(TechBuys::Scraper.scrape_laptop_page)
   end
 
   def saved_games
-    @games = TechBuys::Game.create_game(TechBuys::Scraper.scrape_game_page)
-    @games
+    TechBuys::Game.create_techbuy(TechBuys::Scraper.scrape_game_page)
   end
 
   def saved_wearables
-    @wearables = TechBuys::Wearable.create_wearable(TechBuys::Scraper.scrape_wearable_tech_page)
-    @wearables
+    TechBuys::Wearable.create_techbuy(TechBuys::Scraper.scrape_wearable_tech_page)
   end
 
   def list(device)
@@ -51,17 +48,16 @@ class TechBuys::CLI
     puts "#{device.capitalize} on sale:"::colorize(:light_yellow)
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     if device == "laptops"
-      saved_laptops.each.with_index(1) do |hash, i|
-      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
+      saved_laptops.each.with_index(1) do |laptop, i|
+      puts "#{i}. #{laptop.name} - #{laptop.price}"::colorize(:light_green)
       end
     elsif device == "games"
-      saved_games.each.with_index(1) do |hash, i|
-      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
+      saved_games.each.with_index(1) do |game, i|
+      puts "#{i}. #{game.name} - #{game.price}"::colorize(:light_green)
       end
     elsif device == "wearables"
-      saved_wearables.each.with_index(1) do |hash, i|
-      puts "#{i}. #{hash[:name]} - #{hash[:price]}"::colorize(:light_green)
-
+      saved_wearables.each.with_index(1) do |wear, i|
+      puts "#{i}. #{wear.name} - #{wear.price}"::colorize(:light_green)
       end
     end 
   end
@@ -70,27 +66,27 @@ class TechBuys::CLI
     if(device == "laptops")
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
       puts "Description:"::colorize(:cyan)
-      saved_laptops.each.with_index(1) do |hash, i|
+      saved_laptops.each.with_index(1) do |laptop, i|
         if(num == (i).to_s)
-          puts "\t#{hash[:description]}"::colorize(:light_green)
+          puts "\t#{laptop.description}"::colorize(:light_green)
         end
       end
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     elsif(device == "games")
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
       puts "Description:"::colorize(:cyan)
-      saved_games.each.with_index(1) do |hash, i|
+      saved_games.each.with_index(1) do |game, i|
         if(num == (i).to_s)
-          puts "\t#{hash[:description]}"::colorize(:light_green)
+          puts "\t#{game.description}"::colorize(:light_green)
         end
       end
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
     elsif(device == "wearables")
       puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
       puts "Description:"::colorize(:cyan)
-      saved_wearables.each.with_index(1) do |hash, i|
+      saved_wearables.each.with_index(1) do |wear, i|
         if(num == (i).to_s)
-          puts "\t#{hash[:description]}"::colorize(:light_green)
+          puts "\t#{wear.description}"::colorize(:light_green)
         end
       end
     puts "---------------------------------------------------------------------------------------------------------------------------------------------"::colorize(:blue)
@@ -99,23 +95,23 @@ class TechBuys::CLI
 
   def buy(device, num)
     if(device == "laptops")
-      saved_laptops.each.with_index(1) do |hash, i|
+      saved_laptops.each.with_index(1) do |laptop, i|
         if num == (i).to_s
-          Launchy.open "www.bestbuy.com" + hash[:link]
+          Launchy.open "www.bestbuy.com" + "#{laptop.link}"
         end
       end
       menu(device)
     elsif(device == "games")
-      saved_games.each.with_index(1) do |hash, i|
+      saved_games.each.with_index(1) do |game, i|
         if num == (i).to_s
-          Launchy.open "www.bestbuy.com" + hash[:link]
+          Launchy.open "www.bestbuy.com" + "#{game.link}"
         end
       end
       menu(device)
     elsif(device == "wearables")
-      saved_wearables.each.with_index(1) do |hash, i|
+      saved_wearables.each.with_index(1) do |wear, i|
         if num == (i).to_s
-          Launchy.open "www.bestbuy.com" + hash[:link]
+          Launchy.open "www.bestbuy.com" + "#{wear.link}"
         end
       end
     end

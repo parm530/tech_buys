@@ -1,7 +1,8 @@
 require 'pry'
 class TechBuys::Laptop
 
-	attr_accessor :name, :price, :description, :link
+  extend TechBuys::Createable
+  attr_accessor :name, :price, :description, :link
 
 	@@all = []
 
@@ -16,10 +17,10 @@ class TechBuys::Laptop
   		@@all
   end
 
-  def self.create_laptop(laptop_hash)
-  	laptop_hash.each do |hash|
-  		TechBuys::Laptop.new(hash)
-  	end
-  end
+  # def self.create_laptop(laptop_hash)
+  # 	laptop_hash.each do |hash|
+  # 		TechBuys::Laptop.new(hash)
+  # 	end
+  # end
 
 end

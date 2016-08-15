@@ -1,8 +1,9 @@
 require 'pry'
 class TechBuys::Game
 
+  extend TechBuys::Createable
   attr_accessor :name, :price, :description, :link
-
+  
   @@all = []
 
   def initialize(game_hash)
@@ -14,12 +15,6 @@ class TechBuys::Game
 
   def self.all
       @@all
-  end
-
-  def self.create_game(game_hash)
-    game_hash.each do |hash|
-      TechBuys::Game.new(hash)
-    end
   end
 
 end
